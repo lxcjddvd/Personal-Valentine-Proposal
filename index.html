@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Proposal</title>
+    <!-- Romantic Fonts + Serious Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Parisienne&family=Montserrat:wght@400;600;700&family=Roboto+Slab:wght@400;700&family=Playfair+Display:wght@700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ffe6f2, #ffb3ba, #ff69b4);
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        /* Proposal GIF container (replaces the text) */
+        .proposal-gif-container {
+            margin-bottom: 30px;
+            text-align: center;
+            z-index: 5;
+        }
+        
+        .proposal-gif {
+            width: 400px; /* Adjust as needed for your GIF */
+            height: auto; /* Maintain aspect ratio */
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.7));
+            animation: gentlePulse 2s infinite alternate;
+        }
+        
+        /* Remove the bounce animation for the GIF if you want it static */
+        /* Or keep it for a gentle pulsing effect */
+        @keyframes gentlePulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            z-index: 5;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 25px;
+        }
+        
+        #yes {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        #no {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Background Hearts Container */
+        #background-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        
+        #background-hearts img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .hearts span {
+            position: absolute;
+            font-size: 30px;
+            animation: float 6s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.7));
+        }
+        
+        .hearts span:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .hearts span:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .hearts span:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .hearts span:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .hearts span:nth-child(5) { left: 90%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        #fullscreen-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .yes-text-overlay {
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            font-family: 'Parisienne', cursive;
+            max-width: 80%;
+            position: relative;
+            z-index: 2;
+            text-shadow: 
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                0 2px 0 #000,
+                2px 0 0 #000,
+                0 -2px 0 #000,
+                -2px 0 0 #000,
+                2px 2px 5px rgba(0, 0, 0, 0.8);
+            margin-bottom: 40px;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+        
+        .yes-gif-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.9;
+        }
+        
+        .yes-gif-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #close-message {
+            margin-top: 30px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 3em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            padding: 0;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                0 2px 0 #000,
+                2px 0 0 #000,
+                0 -2px 0 #000,
+                -2px 0 0 #000,
+                0 0 20px rgba(255, 20, 147, 0.8);
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        #close-message:hover {
+            transform: scale(1.3);
+            text-shadow: 
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                0 2px 0 #000,
+                2px 0 0 #000,
+                0 -2px 0 #000,
+                -2px 0 0 #000,
+                0 0 30px rgba(255, 20, 147, 1);
+        }
+        
+        .burst-heart {
+            position: absolute;
+            font-size: 30px;
+            pointer-events: none;
+            animation: burstFade 2s ease-out forwards;
+        }
+        
+        @keyframes burstFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        #no-limit-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .no-limit-content {
+            text-align: center;
+            color: white;
+            max-width: 80%;
+        }
+        
+        .no-limit-gif {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+        }
+        
+        .no-limit-text {
+            font-family: 'Montserrat', 'Roboto Slab', 'Playfair Display', 'Merriweather', serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+        
+        .no-limit-subtext {
+            font-family: 'Roboto Slab', 'Montserrat', serif;
+            font-size: 1.5em;
+            font-weight: 400;
+            color: #f0f0f0;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #close-no-limit {
+            margin-top: 25px;
+            padding: 15px 35px;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        #close-no-limit:hover {
+            background-color: #444;
+            border-color: #888;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    
+    <!-- Background GIF -->
+    <div id="background-hearts">
+        <img src="https://i.pinimg.com/originals/b9/96/ab/b996ab4668b7bf2babacc91484b0d223.gif" alt="Heart background">
+    </div>
+    
+    <!-- Proposal GIF (replaces the text) -->
+    <div class="proposal-gif-container">
+        <img class="proposal-gif" src="proposal.gif" alt="Valentine Proposal">
+    </div>
+    
+    <div class="buttons">
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+    </div>
+    
+    <div class="hearts">
+        <span>❤️</span>
+        <span>💖</span>
+        <span>💕</span>
+        <span>❤️</span>
+        <span>💖</span>
+    </div>
+    
+    <div id="fullscreen-message" class="hidden">
+        <!-- GIF Background for celebration -->
+        <div class="yes-gif-background">
+            <!-- REPLACE THIS WITH YOUR CELEBRATION GIF -->
+            <img src="lovers.gif" alt="Celebration Background">
+        </div>
+        
+        <div class="yes-text-overlay">
+            Yayyyy! I love you, my valentine! Hehe
+        </div>
+        
+        <button id="close-message">❤️</button>
+    </div>
+    
+    <div id="no-limit-message" class="hidden">
+        <div class="no-limit-content">
+            <!-- Change this GIF to any serious/sad GIF -->
+            <img class="no-limit-gif" src="pompom.gif" alt="Serious Message">
+            <div class="no-limit-text">Ahemmmm... Seriously... </div>
+            <div class="no-limit-subtext">This isn't a negotiation, this is a notification. Choose your next response CAREFULLY. >:-|</div>
+            <button id="close-no-limit">Haiiii</button>
+        </div>
+    </div>
+
+    <script>
+        // Particle animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                size: Math.random() * 3 + 1
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff69b4';
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Bursting heart function
+        function burstHearts() {
+            const numHearts = 20;
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'burst-heart';
+                heart.textContent = '❤️';
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                document.body.appendChild(heart);
+
+                const angle = (Math.PI * 2 * i) / numHearts;
+                const distance = Math.random() * 200 + 100;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                setTimeout(() => {
+                    heart.style.transform = `translate(${x}px, ${y}px)`;
+                }, 10);
+
+                setTimeout(() => {
+                    if (heart.parentNode) document.body.removeChild(heart);
+                }, 2000);
+            }
+        }
+
+        // Button interactions
+        let yesSize = 1;
+        let noSize = 1;
+        let noClickCount = 0;
+        
+        const yesButton = document.getElementById('yes');
+        const noButton = document.getElementById('no');
+        const fullscreenMessage = document.getElementById('fullscreen-message');
+        const closeButton = document.getElementById('close-message');
+        const noLimitMessage = document.getElementById('no-limit-message');
+        const closeNoLimitButton = document.getElementById('close-no-limit');
+
+        noButton.addEventListener('click', () => {
+            noClickCount++;
+            
+            // Shrink No button and grow Yes button
+            noSize *= 0.8;
+            yesSize *= 1.2;
+            noButton.style.transform = `scale(${noSize})`;
+            yesButton.style.transform = `scale(${yesSize})`;
+            
+            // Prevent No button from becoming too small
+            if (noSize < 0.1) {
+                noSize = 0.1;
+                noButton.style.transform = `scale(${noSize})`;
+            }
+            
+            if (noClickCount >= 4) {
+                noLimitMessage.classList.remove('hidden');
+                // Disable the No button temporarily
+                noButton.disabled = true;
+                noButton.style.opacity = '0.5';
+                noButton.style.cursor = 'not-allowed';
+                
+                // Re-enable after 5 seconds
+                setTimeout(() => {
+                    noButton.disabled = false;
+                    noButton.style.opacity = '1';
+                    noButton.style.cursor = 'pointer';
+                }, 5000);
+            }
+        });
+
+        yesButton.addEventListener('click', () => {
+            burstHearts();
+            fullscreenMessage.classList.remove('hidden');
+            // Reset the No click counter when Yes is clicked
+            noClickCount = 0;
+        });
+
+        closeButton.addEventListener('click', () => {
+            fullscreenMessage.classList.add('hidden');
+        });
+
+        fullscreenMessage.addEventListener('click', (e) => {
+            if (e.target === fullscreenMessage) {
+                fullscreenMessage.classList.add('hidden');
+            }
+        });
+        
+        closeNoLimitButton.addEventListener('click', () => {
+            noLimitMessage.classList.add('hidden');
+            // Reset button sizes
+            yesSize = 1;
+            noSize = 1;
+            yesButton.style.transform = `scale(${yesSize})`;
+            noButton.style.transform = `scale(${noSize})`;
+        });
+        
+        noLimitMessage.addEventListener('click', (e) => {
+            if (e.target === noLimitMessage) {
+                noLimitMessage.classList.add('hidden');
+                // Reset button sizes
+                yesSize = 1;
+                noSize = 1;
+                yesButton.style.transform = `scale(${yesSize})`;
+                noButton.style.transform = `scale(${noSize})`;
+            }
+        });
+    </script>
+</body>
+</html>
